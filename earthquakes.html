@@ -20,17 +20,23 @@
             const search = $("#search").val().toLowerCase();
 
             $.getJSON("earthquakes.json", function(result) {
+                let count = 0;
                 $.each(result, function(index, item) {
                     let output = "";
                     if (item.location.name.toLowerCase().includes(search)) {
-                        output += "Magnitude ";
-                        output += item.impact.magnitude;
-                        output += " Earthquake located at ";
-                        output += item.location.name;
-                        output += " on ";
-                        output += item.time.full;
-                        output += "<br>";
-                        $("#output").append(output);
+                        if (count <= 25) {
+                            output += item.time.full;
+                            output += " - "
+                            output += "Magnitude ";
+                            output += item.impact.magnitude;
+                            output += " Earthquake located at ";
+                            output += item.location.name;
+                            output += "<br>";
+                            $("#output").append(output);
+                            count++;
+                        } else {
+                            return false;
+                        }
                     }
                 });
             });
