@@ -16,27 +16,27 @@
 
     <script src="https://code.jquery.com/jquery.js"></script>
     <script>
+        const resultLimit = 25;
+
         $("#get").on("click", function(){
             const search = $("#search").val().toLowerCase();
 
             $.getJSON("earthquakes.json", function(result) {
                 let count = 0;
                 $.each(result, function(index, item) {
-                    let output = "";
                     if (item.location.name.toLowerCase().includes(search)) {
-                        if (count <= 25) {
-                            output += item.time.full;
-                            output += " - "
-                            output += "Magnitude ";
-                            output += item.impact.magnitude;
-                            output += " Earthquake located at ";
-                            output += item.location.name;
-                            output += "<br>";
-                            $("#output").append(output);
-                            count++;
-                        } else {
+                        if (count > (resultLimit - 1)) {
                             return false;
                         }
+
+                        const timestamp = item.time.full;
+                        const magnitude = item.impact.magnitude;
+                        const location = item.location.name;
+
+                        let output = timestamp + " - Magnitude " + magnitude.toFixed(2) + " Earthquake located at " + location + "<br>";
+
+                        $("#output").append(output);
+                        count++;
                     }
                 });
             });
