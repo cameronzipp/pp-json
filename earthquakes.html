@@ -15,5 +15,26 @@
     <div id="output"></div>
 
     <script src="https://code.jquery.com/jquery.js"></script>
+    <script>
+        $("#get").on("click", function(){
+            const search = $("#search").val().toLowerCase();
+
+            $.getJSON("earthquakes.json", function(result) {
+                $.each(result, function(index, item) {
+                    let output = "";
+                    if (item.location.name.toLowerCase().includes(search)) {
+                        output += "Magnitude ";
+                        output += item.impact.magnitude;
+                        output += " Earthquake located at ";
+                        output += item.location.name;
+                        output += " on ";
+                        output += item.time.full;
+                        output += "<br>";
+                        $("#output").append(output);
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
